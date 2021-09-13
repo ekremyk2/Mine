@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!-- All Recipes use these stats as basis. -->
+	<!--
+	<RecipeDef>
+		<defName>MinesAutomated_RecipeDef_Base</defName>
+		<efficiencyStat>MiningYield</efficiencyStat>
+		<workSpeedStat>MiningSpeed</workSpeedStat>
+		<effectWorking>Mine</effectWorking>
+		<workSkill>Mining</workSkill>
+		<workSkillLearnFactor>0.25</workSkillLearnFactor>
+		<recipeUsers><li>MinesAutomated_ThingDef_Mine</li></recipeUsers>
+		<unfinishedThingDef>MinesAutomated_ThingDef_UnfinishedMineWork</unfinishedThingDef>
+		<researchPrerequisite>MinesAutomated_ResearchProjectDef_minecraft</researchPrerequisite>
+		<soundWorking>PickHit</soundWorking>
+	</RecipeDef>
+	-->
+</Defs>

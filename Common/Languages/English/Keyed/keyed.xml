@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+ <ms.label>mine {0}</ms.label>
+ <ms.description><![CDATA[Mine into the planetary crust and mine {0}.
+
+Yield: {1:n0} {2}]]></ms.description>
+ <ms.jobString>Mining {0}</ms.jobString> 
+
+ <ms>Mineshaft</ms>
+ <ms.global>Global</ms.global>
+ <ms.gameneeded>Per-material settings are available during a running game.</ms.gameneeded>
+
+ <ms.work>Work</ms.work>
+ <ms.yield>Yield</ms.yield>
+ <ms.material>Material</ms.material>
+
+ <ms.density>Resource lump sizes</ms.density>
+ <ms.minework>Mine work per resource unit</ms.minework>
+ <ms.commonality>Resource rarity</ms.commonality>
+ 
+ <ms.density.tip><![CDATA[Controls how large deposits of resources are. Affects resource <i>yields</i>.
+
+Has no effect on stone chunks.
+
+NOTE: Yields are capped to produce at least <i>one</i> unit of a material. If the yield is scaled down further, the yield value will not change - instead the amount of work will increase to compensate.]]></ms.density.tip>
+ <ms.minework.tip><![CDATA[Controls how much work is needed to Mine each resource.
+Mine work is built of two components: Mining <i>to</i> - and ultimately Mining <i>into</i> the resources.
+
+This modifies the Mining <i>into</i> or <i>'get the stuff'</i> component.]]></ms.minework.tip>
+ <ms.commonality.tip><![CDATA[Controls how much work is needed to 'find' each resource.
+Mine work is built of two components: Mining <i>to</i> - and ultimately Mining <i>into</i> the resources.
+
+This modifies the Mining <i>to</i> or <i>'find the stuff'</i> component.
+
+Has no effect on stone chunks.]]></ms.commonality.tip>
+ 
+ <ms.work.tip><![CDATA[Directly modifies the work needed to Mine for a material.]]></ms.work.tip>
+ <ms.yield.tip><![CDATA[Directly modifies the Mining yield for a material.
+
+NOTE: Yields are capped to produce at least <i>one</i> unit of a material. If the yield is scaled down further, the yield value will not change - instead the amount of work will increase to compensate.]]></ms.yield.tip>
+ <ms.reload>You need to save and load for changes to take effect</ms.reload>
+ 
+<ms.unfinished>Unfinished {0} mining work</ms.unfinished>
+</LanguageData>
