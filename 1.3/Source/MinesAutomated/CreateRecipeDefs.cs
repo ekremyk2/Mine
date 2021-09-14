@@ -22,11 +22,17 @@ namespace MinesAutomated {
             MinesAutomatedRecipeDefs = new System.Collections.Generic.List<RecipesAndTheirResourceBlocks>();
             foreach (Verse.ThingDef resourceBlock in Verse.DefDatabase<Verse.ThingDef>.AllDefs.Where(td => td.mineable && td.building?.mineableThing != null &&
             (td.building.isResourceRock || td.building.isNaturalRock))) {
-                Verse.RecipeDef recipeToAdd = DefineRecipeDef.FinishRecipeDef(DefineRecipeDef.CopyBaseRecipeDef(), resourceBlock);
-                //Adding them to a list to make it easier to recalculate values with the values from the settings.
-                MinesAutomatedRecipeDefs.Add(new RecipesAndTheirResourceBlocks(recipeToAdd, resourceBlock));
                 //Adding them to the DefDatabase.
-                Verse.DefDatabase<Verse.RecipeDef>.Add(recipeToAdd);
+                if (Verse.DefDatabase<Verse.RecipeDef>.AllDefs.Where(e => e.defName == "MinesAutomated_RecipeDef_" + resourceBlock.building.mineableThing.label.Replace(" ", string.Empty)).Count() < 1) {
+                    //Adding them to a list to make it easier to recalculate values with the values from the settings.
+                    Verse.RecipeDef recipeToAdd = DefineRecipeDef.FinishRecipeDef(DefineRecipeDef.CopyBaseRecipeDef(), resourceBlock);
+                    MinesAutomatedRecipeDefs.Add(new RecipesAndTheirResourceBlocks(recipeToAdd, resourceBlock));
+                    Verse.DefDatabase<Verse.RecipeDef>.Add(recipeToAdd);
+                    recipeToAdd.ResolveReferences();
+                }
+                else
+                    Verse.Log.Message("MinesAutomated -> CreateRecipeDefs" +
+                        "\nA RecipeDef with the product" + resourceBlock.building.mineableThing + " has not been added because a Def with that product already exists.");
             }
             //Make sure the DefDatabase integrates the new RecipeDefs.
             Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
@@ -35,14 +41,13 @@ namespace MinesAutomated {
     public static class DefineRecipeDef {
         //Give the recipe individual infos.
         public static Verse.RecipeDef FinishRecipeDef(Verse.RecipeDef recipeDef, Verse.ThingDef resourceBlock) {
-            recipeDef.defName = "MinesAutomated_RecipeDef_" + resourceBlock.building.mineableThing.label;
+            recipeDef.defName = "MinesAutomated_RecipeDef_" + resourceBlock.building.mineableThing.label.Replace(" ", string.Empty);
             recipeDef.label = "Mine for " + resourceBlock.building.mineableThing.label;
             recipeDef.jobString = "Mining for " + resourceBlock.building.mineableThing.label;
             recipeDef.description = "Mine for " + resourceBlock.building.mineableThing.label;
             recipeDef.descriptionHyperlinks = new System.Collections.Generic.List<Verse.DefHyperlink>() {
                 new Verse.DefHyperlink() {def = resourceBlock.building.mineableThing}
             };
-            recipeDef.ResolveReferences();
             return recipeDef;
         }
         //The base recipe all other recipes are based off of.
