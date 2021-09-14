@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<WorkGiverDef>
+		<defName>DoBillsMine</defName>
+		<label>do bills at mine</label>
+		<giverClass>WorkGiver_DoBill</giverClass>
+		<workType>Mining</workType>
+		<priorityInType>300</priorityInType>
+		<fixedBillGiverDefs>
+			<li>MinesAutomated_ThingDef_Mine</li>
+		</fixedBillGiverDefs>
+		<verb>work</verb>
+		<gerund>working at</gerund>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+</Defs>
