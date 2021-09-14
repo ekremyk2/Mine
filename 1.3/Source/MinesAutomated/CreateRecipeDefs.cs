@@ -16,6 +16,7 @@ namespace MinesAutomated {
             this.ResourceBlock = resourceBlock;
         }
     }
+    [Verse.StaticConstructorOnStartup]
     public static class CreateRecipeDefs {
         public static System.Collections.Generic.List<RecipesAndTheirResourceBlocks> MinesAutomatedRecipeDefs { get; set; }
         static CreateRecipeDefs() {
@@ -41,13 +42,19 @@ namespace MinesAutomated {
     public static class DefineRecipeDef {
         //Give the recipe individual infos.
         public static Verse.RecipeDef FinishRecipeDef(Verse.RecipeDef recipeDef, Verse.ThingDef resourceBlock) {
-            recipeDef.defName = "MinesAutomated_RecipeDef_" + resourceBlock.building.mineableThing.label.Replace(" ", string.Empty);
+            recipeDef.defName = "MinesAutomated_RecipeDef_" + resourceBlock.defName;
             recipeDef.label = "Mine for " + resourceBlock.building.mineableThing.label;
             recipeDef.jobString = "Mining for " + resourceBlock.building.mineableThing.label;
             recipeDef.description = "Mine for " + resourceBlock.building.mineableThing.label;
             recipeDef.descriptionHyperlinks = new System.Collections.Generic.List<Verse.DefHyperlink>() {
                 new Verse.DefHyperlink() {def = resourceBlock.building.mineableThing}
             };
+            recipeDef.products = new System.Collections.Generic.List<Verse.ThingDefCountClass>() {
+                    new Verse.ThingDefCountClass() {
+                        thingDef = resourceBlock.building.mineableThing,
+                        count = 0
+                    }
+                };
             return recipeDef;
         }
         //The base recipe all other recipes are based off of.

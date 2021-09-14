@@ -5,9 +5,6 @@
         public override void FinalizeInit() {
             Settings.UpdateRecipeDefs();
         }
-        public GameComponent(Verse.Game game) { }
+        public GameComponent(Verse.Game game) : base() { }
     }
-
-    [Verse.StaticConstructorOnStartup]
-    public static class MinesAutomated{}
 }

@@ -30,17 +30,13 @@
         //Gets called whenever the Recipes should be updated.
         public void UpdateRecipeDefs() {
             foreach (SettingindividualProperties sp in individualSettings) {
-                sp.recipeDef.products = new System.Collections.Generic.List<Verse.ThingDefCountClass>() {
-                    new Verse.ThingDefCountClass() {
-                        thingDef = sp.resource.building.mineableThing,
-                        count = (int)SettingsIndividual.CalculateValues(sp, this, false)
-                    }
-                };
                 Verse.RecipeDef rd = Verse.DefDatabase<Verse.RecipeDef>.GetNamed(sp.recipeDef.defName);
+                rd.products[0].count = (int)SettingsIndividual.CalculateValues(sp, this, false);
                 //Don't ask me where the 60 comes from, but it's needed for the calculation.
                 rd.workAmount = SettingsIndividual.CalculateValues(sp, this, true) * 60f;
                 rd.ResolveReferences();
             }
+            Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
             base.ExposeData();
         }
     }
