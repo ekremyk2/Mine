@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 	<!-- All Recipes use these stats as basis. -->
-	<!--
-	<RecipeDef>
-		<defName>MinesAutomated_RecipeDef_Base</defName>
+	<RecipeDef Name="MinesAutomated_RecipeDef_Base" Abstract="True">
 		<efficiencyStat>MiningYield</efficiencyStat>
 		<workSpeedStat>MiningSpeed</workSpeedStat>
 		<effectWorking>Mine</effectWorking>
@@ -13,6 +11,12 @@
 		<unfinishedThingDef>MinesAutomated_ThingDef_UnfinishedMineWork</unfinishedThingDef>
 		<researchPrerequisite>MinesAutomated_ResearchProjectDef_minecraft</researchPrerequisite>
 		<soundWorking>PickHit</soundWorking>
+		<!-- Stats that have to be defined with the patch -->
+		<defName></defName>
+		<label></label>
+		<jobString></jobString>
+		<description></description>
+		<descriptionHyperlinks></descriptionHyperlinks>
+		<products></products>
 	</RecipeDef>
-	-->
 </Defs>
