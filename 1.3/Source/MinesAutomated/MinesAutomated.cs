@@ -6,6 +6,6 @@
             Settings.UpdateRecipeDefs();
             base.FinalizeInit();
         }
-        public GameComponent(Verse.Game game) : base() { }
+        public GameComponent(Verse.Game game) : base() {}
     }
 }

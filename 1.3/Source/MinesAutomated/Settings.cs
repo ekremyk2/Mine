@@ -1,4 +1,6 @@
-﻿namespace MinesAutomated {
+﻿using System.Linq;
+
+namespace MinesAutomated {
     public class Settings : Verse.ModSettings {
         //How much room each row of UI elements has.
         public float heightPerSetting = 25f;
@@ -18,26 +20,29 @@
             }
             base.ExposeData();
         }
-        //Fill the lists which gets used for the UI.
+        //Gets called whenever the Recipes should be updated.
+        public void UpdateRecipeDefs() {
+            System.Collections.Generic.List<string> recipes = CreateRecipeDefs.RecipeDefsNotToCreate();
+            foreach (SettingindividualProperties sp in individualSettings) {
+                if (!recipes.Contains(sp.recipeDef.defName)) {
+                    Verse.RecipeDef rd = Verse.DefDatabase<Verse.RecipeDef>.GetNamed(sp.recipeDef.defName);
+                    rd.products[0].count = (int)SettingsIndividual.CalculateValues(sp, this, false);
+                    //Don't ask me where the 60 comes from, but it's needed for the calculation.
+                    rd.workAmount = SettingsIndividual.CalculateValues(sp, this, true) * 60f;
+                    rd.ResolveReferences();
+                }
+                Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
+            }
+        }
         public Settings() {
             //The two global settings.
             globalSettings.Add(new SettingGlobalProperties("globalWorkamount", "Global workamount modifier"));
             globalSettings.Add(new SettingGlobalProperties("globalYield", "Global yield modifier"));
-            //The individual settings for each mineable resource.
-            foreach(RecipesAndTheirResourceBlocks rd in CreateRecipeDefs.MinesAutomatedRecipeDefs)
-                individualSettings.Add(new SettingindividualProperties(rd.RecipeDef, rd.ResourceBlock));
-        }
-        //Gets called whenever the Recipes should be updated.
-        public void UpdateRecipeDefs() {
-            foreach (SettingindividualProperties sp in individualSettings) {
-                Verse.RecipeDef rd = Verse.DefDatabase<Verse.RecipeDef>.GetNamed(sp.recipeDef.defName);
-                rd.products[0].count = (int)SettingsIndividual.CalculateValues(sp, this, false);
-                //Don't ask me where the 60 comes from, but it's needed for the calculation.
-                rd.workAmount = SettingsIndividual.CalculateValues(sp, this, true) * 60f;
-                rd.ResolveReferences();
+
+            foreach (Verse.ThingDef resourceBlock in Verse.DefDatabase<Verse.ThingDef>.AllDefs.Where(td => td.mineable && td.building?.mineableThing != null &&
+            (td.building.isResourceRock || td.building.isNaturalRock))) {
+                individualSettings.Add(new SettingindividualProperties(null, resourceBlock));
             }
-            Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
-            base.ExposeData();
         }
     }
     public class MinesAutomatedSettings : Verse.Mod {
@@ -49,7 +54,7 @@
         public Settings Settings => GetSettings<Settings>();
         //Giving the Setting a name in the mod-setting window.
         public override string SettingsCategory() {
-            return "Mines - Automated";
+            return "Mines 2.0";
         }
         //The main method to draw the GUI.
         public override void DoSettingsWindowContents(UnityEngine.Rect inRect) {

@@ -22,15 +22,18 @@ namespace MinesAutomated {
     public static class CreateRecipeDefs {
         public static System.Collections.Generic.List<RecipesAndTheirResourceBlocks> MinesAutomatedRecipeDefs { get; set; }
         static CreateRecipeDefs() {
+            Settings settings = Verse.LoadedModManager.GetMod<MinesAutomatedSettings>().GetSettings<Settings>();
             MinesAutomatedRecipeDefs = new System.Collections.Generic.List<RecipesAndTheirResourceBlocks>();
             System.Collections.Generic.List<string> recipes = RecipeDefsNotToCreate();
             foreach (Verse.ThingDef resourceBlock in Verse.DefDatabase<Verse.ThingDef>.AllDefs.Where(td => td.mineable && td.building?.mineableThing != null &&
             (td.building.isResourceRock || td.building.isNaturalRock))) {
                 //Adding them to the DefDatabase.
                 if (Verse.DefDatabase<Verse.RecipeDef>.AllDefs.Where(e => e.defName == "MinesAutomated_RecipeDef_" + resourceBlock.building.mineableThing.label.Replace(" ", string.Empty)).Count() < 1) {
+                    Verse.RecipeDef recipeToAdd = DefineRecipeDef.FinishRecipeDef(DefineRecipeDef.CopyBaseRecipeDef(), resourceBlock);
+                    //settings.individualSettings.Add(new SettingindividualProperties(recipeToAdd, resourceBlock));
+                    settings.individualSettings.First(e => e.resource == resourceBlock).recipeDef = recipeToAdd;
                     //Adding them to a list to make it easier to recalculate values with the values from the settings.
                     if (!recipes.Contains("MinesAutomated_RecipeDef_" + resourceBlock.defName)) {
-                        Verse.RecipeDef recipeToAdd = DefineRecipeDef.FinishRecipeDef(DefineRecipeDef.CopyBaseRecipeDef(), resourceBlock);
                         MinesAutomatedRecipeDefs.Add(new RecipesAndTheirResourceBlocks(recipeToAdd, resourceBlock));
                         Verse.DefDatabase<Verse.RecipeDef>.Add(recipeToAdd);
                         recipeToAdd.ResolveReferences();
@@ -46,24 +49,31 @@ namespace MinesAutomated {
         }
         //You can't edit RecipeDefs with PatchOperations if those RecipeDefs where created in C#.
         //So those PatchOperations are directly read and applied / warned about.
-        private static System.Collections.Generic.List<string> RecipeDefsNotToCreate() {
+        public static System.Collections.Generic.List<string> RecipeDefsNotToCreate() {
             System.Collections.Generic.List<string> recipes = new System.Collections.Generic.List<string>();
             foreach (Verse.PatchOperation po in Verse.LoadedModManager.GetMod<MinesAutomatedSettings>().GetSettings<Settings>().Mod.Content.Patches) {
                 System.Xml.XmlDocument xml = new System.Xml.XmlDocument();
                 xml.Load(po.sourceFile);
-                foreach (System.Xml.XmlNode node in xml.GetElementsByTagName("operations")[0].ChildNodes) {
-                    if (node.Attributes != null && node.Attributes.Count != 0) {
-                        string attribute = node.Attributes[0].Value;
-                        //Error message that PatchOperationReplace doesn't work on RecipeDefs.
-                        if (attribute == "PatchOperationReplace" && node.InnerText.Contains("MinesAutomated_RecipeDef_")) {
-                            Verse.Log.Error("Mines 2.0: PatchOperationReplace does not work for RecipeDefs of this mod. Please remove the recipe and add a new one with the values you need.");
-                        //"Removing" RecipeDefs by preventing them from being created.
-                        } else if (attribute == "PatchOperationRemove") {
-                            string xpath = node.FirstChild.InnerText;
-                            if (xpath.Contains("MinesAutomated_RecipeDef_")) {
-                                int first = xpath.IndexOf('"', 0);
-                                int second = xpath.IndexOf('"', ++first);
-                                recipes.Add(xpath.Substring(first, second - first));
+                bool modIsActive = false;
+                foreach (System.Xml.XmlNode node in xml.GetElementsByTagName("mods")[0].ChildNodes) {
+                    if (Verse.ModLister.HasActiveModWithName(node.InnerText))
+                        modIsActive = true;
+                }
+                if (modIsActive) {
+                    foreach (System.Xml.XmlNode node in xml.GetElementsByTagName("operations")[0].ChildNodes) {
+                        if (node.Attributes != null && node.Attributes.Count != 0) {
+                            string attribute = node.Attributes[0].Value;
+                            //Error message that PatchOperationReplace doesn't work on RecipeDefs.
+                            if (attribute == "PatchOperationReplace" && node.InnerText.Contains("MinesAutomated_RecipeDef_")) {
+                                Verse.Log.Error("Mines 2.0: PatchOperationReplace does not work for RecipeDefs of this mod. Please remove the recipe and add a new one with the values you need.");
+                                //"Removing" RecipeDefs by preventing them from being created.
+                            } else if (attribute == "PatchOperationRemove") {
+                                string xpath = node.FirstChild.InnerText;
+                                if (xpath.Contains("MinesAutomated_RecipeDef_")) {
+                                    int first = xpath.IndexOf('"', 0);
+                                    int second = xpath.IndexOf('"', ++first);
+                                    recipes.Add(xpath.Substring(first, second - first));
+                                }
                             }
                         }
                     }
