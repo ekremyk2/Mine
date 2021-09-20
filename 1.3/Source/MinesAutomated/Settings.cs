@@ -37,6 +37,8 @@ namespace MinesAutomated {
             }
         }
         public Settings() {
+            if (disableLogging)
+                Verse.Log.Message("Mines 2.0: Logging has been disabled.");
             //The two global settings.
             globalSettings.Add(new SettingGlobalProperties("globalWorkamount", "Global workamount modifier"));
             globalSettings.Add(new SettingGlobalProperties("globalYield", "Global yield modifier"));
