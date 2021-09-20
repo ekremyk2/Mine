@@ -37,12 +37,13 @@ namespace MinesAutomated {
                         MinesAutomatedRecipeDefs.Add(new RecipesAndTheirResourceBlocks(recipeToAdd, resourceBlock));
                         Verse.DefDatabase<Verse.RecipeDef>.Add(recipeToAdd);
                         recipeToAdd.ResolveReferences();
-                        Verse.Log.Message("Mines 2.0-> RecipeDef named " + recipeToAdd.defName + " added to the mine.");
+                        if (!settings.disableLogging)
+                            Verse.Log.Message("Mines 2.0-> RecipeDef named " + recipeToAdd.defName + " added to the mine.");
                     }
-                }
-                else
-                    Verse.Log.Message("MinesAutomated -> CreateRecipeDefs" +
-                        "\nA RecipeDef with the product" + resourceBlock.building.mineableThing + " has not been added because a Def with that product already exists.");
+                } else
+                        if (!settings.disableLogging)
+                            Verse.Log.Message("MinesAutomated -> CreateRecipeDefs" +
+                                "\nA RecipeDef with the product" + resourceBlock.building.mineableThing + " has not been added because a Def with that product already exists.");
             }
             //Make sure the DefDatabase integrates the new RecipeDefs.
             Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();

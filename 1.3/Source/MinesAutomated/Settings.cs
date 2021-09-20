@@ -2,6 +2,7 @@
 
 namespace MinesAutomated {
     public class Settings : Verse.ModSettings {
+        public bool disableLogging;
         //How much room each row of UI elements has.
         public float heightPerSetting = 25f;
         //The minimum and maximum values for the workamount and yield in %.
@@ -10,6 +11,7 @@ namespace MinesAutomated {
         public System.Collections.Generic.List<SettingGlobalProperties> globalSettings = new System.Collections.Generic.List<SettingGlobalProperties>();
         public System.Collections.Generic.List<SettingindividualProperties> individualSettings = new System.Collections.Generic.List<SettingindividualProperties>();
         public override void ExposeData() {
+            Verse.Scribe_Values.Look(ref disableLogging, "disableLogging", defaultValue: false);
             //Save the global settings
             foreach (SettingGlobalProperties sp in globalSettings)
                 Verse.Scribe_Values.Look(ref sp.value, sp.Scribe_Values_String);
@@ -60,6 +62,7 @@ namespace MinesAutomated {
         public override void DoSettingsWindowContents(UnityEngine.Rect inRect) {
             Verse.Listing_Standard listingStandard = new Verse.Listing_Standard();
             listingStandard.Begin(inRect);
+            listingStandard.CheckboxLabeled("Disable logging", ref Settings.disableLogging);
             listingStandard.Label("All values are in %. Values can range between " + Settings.minValue + " and " + Settings.maxValue + ".");
             SettingsGlobal.DrawGlobalSettings(listingStandard, inRect.width, Settings);
             SettingsIndividual.DrawIndividualSettings(listingStandard, inRect.width, Settings, inRect);
