@@ -71,8 +71,8 @@
         public string bufferWorkamount;
         public string bufferYield;
         //A unique string Rimworld needs to save the settings.
-        public string Scribe_Values_Workamount;
-        public string Scribe_Values_Yield;
+        public string Scribe_Values_Workamount = "";
+        public string Scribe_Values_Yield = "";
         //The label that is displayed in the settings menu for the line this instance is used in.
         public Verse.TaggedString label;
         //The value for Workamount that is displayed and saved.
@@ -80,8 +80,12 @@
         //The value for Yield that is displayed and saved.
         public int valueYield = 100;
         public SettingindividualProperties(Verse.RecipeDef recipeDef, Verse.ThingDef resource) {
-            this.Scribe_Values_Workamount = resource.building.mineableThing.label.Replace(" ", string.Empty) + "Workamount";
-            this.Scribe_Values_Yield = resource.building.mineableThing.label.Replace(" ", string.Empty) + "Yield";
+            foreach (char c in resource.building.mineableThing.label + "Workamount")
+                if (char.IsLetterOrDigit(c))
+                    this.Scribe_Values_Workamount += c;
+            foreach (char c in resource.building.mineableThing.label + "Yield")
+                if (char.IsLetterOrDigit(c))
+                    this.Scribe_Values_Yield += c;
             this.label = resource.building.mineableThing.label;
             this.label = this.label.CapitalizeFirst();
             this.recipeDef = recipeDef;

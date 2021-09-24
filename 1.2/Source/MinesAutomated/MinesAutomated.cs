@@ -3,9 +3,9 @@
     public class GameComponent : Verse.GameComponent {
         Settings Settings => Verse.LoadedModManager.GetMod<MinesAutomatedSettings>().GetSettings<Settings>();
         public override void FinalizeInit() {
-            Settings.UpdateRecipeDefs();
+            Verse.LoadedModManager.GetMod<MinesAutomatedSettings>().GetSettings<Settings>().UpdateRecipeDefs();
             base.FinalizeInit();
         }
-        public GameComponent(Verse.Game game) : base() { }
+        public GameComponent(Verse.Game game) : base() {}
     }
 }

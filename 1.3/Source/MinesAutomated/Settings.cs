@@ -11,6 +11,7 @@ namespace MinesAutomated {
         public System.Collections.Generic.List<SettingGlobalProperties> globalSettings = new System.Collections.Generic.List<SettingGlobalProperties>();
         public System.Collections.Generic.List<SettingindividualProperties> individualSettings = new System.Collections.Generic.List<SettingindividualProperties>();
         public override void ExposeData() {
+            base.ExposeData();
             Verse.Scribe_Values.Look(ref disableLogging, "disableLogging", defaultValue: false);
             //Save the global settings
             foreach (SettingGlobalProperties sp in globalSettings)
@@ -20,18 +21,17 @@ namespace MinesAutomated {
                 Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
                 Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
             }
-            base.ExposeData();
         }
         //Gets called whenever the Recipes should be updated.
         public void UpdateRecipeDefs() {
             System.Collections.Generic.List<string> recipes = CreateRecipeDefs.RecipeDefsNotToCreate();
             foreach (SettingindividualProperties sp in individualSettings) {
                 if (!recipes.Contains(sp.recipeDef.defName)) {
-                    Verse.RecipeDef rd = Verse.DefDatabase<Verse.RecipeDef>.GetNamed(sp.recipeDef.defName);
-                    rd.products[0].count = (int)SettingsIndividual.CalculateValues(sp, this, false);
-                    //Don't ask me where the 60 comes from, but it's needed for the calculation.
-                    rd.workAmount = SettingsIndividual.CalculateValues(sp, this, true) * 60f;
-                    rd.ResolveReferences();
+                       Verse.RecipeDef rd = Verse.DefDatabase<Verse.RecipeDef>.GetNamed(sp.recipeDef.defName);
+                       rd.products[0].count = (int)SettingsIndividual.CalculateValues(sp, this, false);
+                       //Don't ask me where the 60 comes from, but it's needed for the calculation.
+                       rd.workAmount = SettingsIndividual.CalculateValues(sp, this, true) * 60f;
+                       rd.ResolveReferences();
                 }
                 Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
             }
@@ -52,8 +52,8 @@ namespace MinesAutomated {
     public class MinesAutomatedSettings : Verse.Mod {
         //Updates the RecipeDefs with the correct values after saving the settings.
         public override void WriteSettings() {
-            Settings.UpdateRecipeDefs();
             base.WriteSettings();
+            Settings.UpdateRecipeDefs();
         }
         public Settings Settings => GetSettings<Settings>();
         //Giving the Setting a name in the mod-setting window.

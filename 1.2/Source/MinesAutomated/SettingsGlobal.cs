@@ -12,7 +12,7 @@
             UnityEngine.Rect rect = new UnityEngine.Rect() { width = width, height = settings.heightPerSetting };
 
             foreach (SettingGlobalProperties sp in settings.globalSettings)
-                rect.y += newGlobalSetting(rect, sp, settings);
+               rect.y += newGlobalSetting(rect, sp, settings);
 
             listingStandard.EndSection(listingStandardGlobal);
         }

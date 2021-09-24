@@ -47,6 +47,7 @@ namespace MinesAutomated {
             }
             //Make sure the DefDatabase integrates the new RecipeDefs.
             Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
+            DefOf.MinesAutomated_ThingDef_Mine.ResolveReferences();
         }
         //You can't edit RecipeDefs with PatchOperations if those RecipeDefs where created in C#.
         //So those PatchOperations are directly read and applied / warned about.
@@ -96,7 +97,7 @@ namespace MinesAutomated {
             recipeDef.products = new System.Collections.Generic.List<Verse.ThingDefCountClass>() {
                     new Verse.ThingDefCountClass() {
                         thingDef = resourceBlock.building.mineableThing,
-                        count = 0
+                        count = 1
                     }
                 };
             return recipeDef;
@@ -113,8 +114,7 @@ namespace MinesAutomated {
                 unfinishedThingDef = DefOf.MinesAutomated_ThingDef_UnfinishedMineWork,
                 researchPrerequisite = DefOf.MinesAutomated_ResearchProjectDef_minecraft,
                 soundWorking = DefOf.PickHit,
-                modContentPack = DefOf.MinesAutomated_ThingDef_Mine.modContentPack,
-                generated = true
+                modContentPack = DefOf.MinesAutomated_ThingDef_Mine.modContentPack
             };
             return new Verse.RecipeDef() {
                 efficiencyStat = baseRecipe.efficiencyStat,
