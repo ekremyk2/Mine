@@ -80,16 +80,19 @@
         //The value for Yield that is displayed and saved.
         public int valueYield = 100;
         public SettingindividualProperties(Verse.RecipeDef recipeDef, Verse.ThingDef resource) {
-            foreach (char c in resource.building.mineableThing.label + "Workamount")
-                if (char.IsLetterOrDigit(c))
-                    this.Scribe_Values_Workamount += c;
-            foreach (char c in resource.building.mineableThing.label + "Yield")
-                if (char.IsLetterOrDigit(c))
-                    this.Scribe_Values_Yield += c;
+            this.Scribe_Values_Workamount = RemoveSpecialCharacters(resource.building.mineableThing.label + "Workamount");
+            this.Scribe_Values_Yield = RemoveSpecialCharacters(resource.building.mineableThing.label + "Yield");
             this.label = resource.building.mineableThing.label;
             this.label = this.label.CapitalizeFirst();
             this.recipeDef = recipeDef;
             this.resource = resource;
+        }
+        private string RemoveSpecialCharacters(string s) {
+            string returnString = "";
+            foreach (char c in s)
+                if (char.IsLetterOrDigit(c))
+                    returnString += c;
+            return returnString;
         }
     }
 }

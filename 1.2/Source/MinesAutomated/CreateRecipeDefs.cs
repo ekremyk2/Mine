@@ -10,50 +10,39 @@ namespace MinesAutomated {
             RimWorld.DefOfHelper.EnsureInitializedInCtor(typeof(DefOf));
         }
     }
-    public class RecipesAndTheirResourceBlocks {
-        public Verse.RecipeDef RecipeDef { get; }
-        public Verse.ThingDef ResourceBlock { get; }
-        public RecipesAndTheirResourceBlocks(Verse.RecipeDef recipeDef, Verse.ThingDef resourceBlock) {
-            this.RecipeDef = recipeDef;
-            this.ResourceBlock = resourceBlock;
-        }
-    }
     [Verse.StaticConstructorOnStartup]
     public static class CreateRecipeDefs {
-        public static System.Collections.Generic.List<RecipesAndTheirResourceBlocks> MinesAutomatedRecipeDefs { get; set; }
         static CreateRecipeDefs() {
             Settings settings = Verse.LoadedModManager.GetMod<MinesAutomatedSettings>().GetSettings<Settings>();
-            MinesAutomatedRecipeDefs = new System.Collections.Generic.List<RecipesAndTheirResourceBlocks>();
             System.Collections.Generic.List<string> recipes = RecipeDefsNotToCreate();
             foreach (Verse.ThingDef resourceBlock in Verse.DefDatabase<Verse.ThingDef>.AllDefs.Where(td => td.mineable && td.building?.mineableThing != null &&
             (td.building.isResourceRock || td.building.isNaturalRock))) {
                 //Adding them to the DefDatabase.
                 if (Verse.DefDatabase<Verse.RecipeDef>.AllDefs.Where(e => e.defName == "MinesAutomated_RecipeDef_" + resourceBlock.building.mineableThing.label.Replace(" ", string.Empty)).Count() < 1) {
                     Verse.RecipeDef recipeToAdd = DefineRecipeDef.FinishRecipeDef(DefineRecipeDef.CopyBaseRecipeDef(), resourceBlock);
-                    //settings.individualSettings.Add(new SettingindividualProperties(recipeToAdd, resourceBlock));
-                    settings.individualSettings.First(e => e.resource == resourceBlock).recipeDef = recipeToAdd;
                     //Adding them to a list to make it easier to recalculate values with the values from the settings.
                     if (!recipes.Contains("MinesAutomated_RecipeDef_" + resourceBlock.defName)) {
-                        MinesAutomatedRecipeDefs.Add(new RecipesAndTheirResourceBlocks(recipeToAdd, resourceBlock));
+                        settings.individualSettings.Add(new SettingindividualProperties(recipeToAdd, resourceBlock));
                         Verse.DefDatabase<Verse.RecipeDef>.Add(recipeToAdd);
-                        recipeToAdd.ResolveReferences();
                         if (!settings.disableLogging)
                             Verse.Log.Message("Mines 2.0-> RecipeDef named " + recipeToAdd.defName + " added to the mine.");
                     }
                 } else
-                        if (!settings.disableLogging)
+                        if (settings.disableLogging)
                             Verse.Log.Message("MinesAutomated -> CreateRecipeDefs" +
                                 "\nA RecipeDef with the product" + resourceBlock.building.mineableThing + " has not been added because a Def with that product already exists.");
             }
             //Make sure the DefDatabase integrates the new RecipeDefs.
             Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
             DefOf.MinesAutomated_ThingDef_Mine.ResolveReferences();
+            settings.LoadSettings();
         }
         //You can't edit RecipeDefs with PatchOperations if those RecipeDefs where created in C#.
         //So those PatchOperations are directly read and applied / warned about.
         public static System.Collections.Generic.List<string> RecipeDefsNotToCreate() {
+            Settings settings = Verse.LoadedModManager.GetMod<MinesAutomatedSettings>().GetSettings<Settings>();
             System.Collections.Generic.List<string> recipes = new System.Collections.Generic.List<string>();
-            foreach (Verse.PatchOperation po in Verse.LoadedModManager.GetMod<MinesAutomatedSettings>().GetSettings<Settings>().Mod.Content.Patches) {
+            foreach (Verse.PatchOperation po in settings.Mod.Content.Patches) {
                 System.Xml.XmlDocument xml = new System.Xml.XmlDocument();
                 xml.Load(po.sourceFile);
                 bool modIsActive = false;
@@ -97,9 +86,10 @@ namespace MinesAutomated {
             recipeDef.products = new System.Collections.Generic.List<Verse.ThingDefCountClass>() {
                     new Verse.ThingDefCountClass() {
                         thingDef = resourceBlock.building.mineableThing,
-                        count = 1
+                        count = resourceBlock.building.mineableYield
                     }
                 };
+            recipeDef.workAmount = (float)System.Math.Ceiling((float)resourceBlock.BaseMaxHitPoints / 80);
             return recipeDef;
         }
         //The base recipe all other recipes are based off of.

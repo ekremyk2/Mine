@@ -10,6 +10,7 @@ namespace MinesAutomated {
         public int maxValue = 200;
         public System.Collections.Generic.List<SettingGlobalProperties> globalSettings = new System.Collections.Generic.List<SettingGlobalProperties>();
         public System.Collections.Generic.List<SettingindividualProperties> individualSettings = new System.Collections.Generic.List<SettingindividualProperties>();
+        System.Xml.XmlNode test = null;
         public override void ExposeData() {
             base.ExposeData();
             Verse.Scribe_Values.Look(ref disableLogging, "disableLogging", defaultValue: false);
@@ -17,36 +18,38 @@ namespace MinesAutomated {
             foreach (SettingGlobalProperties sp in globalSettings)
                 Verse.Scribe_Values.Look(ref sp.value, sp.Scribe_Values_String);
             //Save the individual settings
+            if (test == null)
+                test = Verse.Scribe.loader.curXmlParent;
             foreach (SettingindividualProperties sp in individualSettings) {
                 Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
                 Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
             }
         }
+        public void LoadSettings() {
+            Verse.Scribe.mode = Verse.LoadSaveMode.LoadingVars;
+            Verse.Scribe.loader.curXmlParent = test;
+            foreach (SettingindividualProperties sp in individualSettings) {
+                Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
+                Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
+            }
+            Verse.Scribe.mode = Verse.LoadSaveMode.Inactive;
+        }
         //Gets called whenever the Recipes should be updated.
         public void UpdateRecipeDefs() {
-            System.Collections.Generic.List<string> recipes = CreateRecipeDefs.RecipeDefsNotToCreate();
             foreach (SettingindividualProperties sp in individualSettings) {
-                if (!recipes.Contains(sp.recipeDef.defName)) {
-                       Verse.RecipeDef rd = Verse.DefDatabase<Verse.RecipeDef>.GetNamed(sp.recipeDef.defName);
-                       rd.products[0].count = (int)SettingsIndividual.CalculateValues(sp, this, false);
-                       //Don't ask me where the 60 comes from, but it's needed for the calculation.
-                       rd.workAmount = SettingsIndividual.CalculateValues(sp, this, true) * 60f;
-                       rd.ResolveReferences();
-                }
-                Verse.DefDatabase<Verse.RecipeDef>.ResolveAllReferences();
+                Verse.RecipeDef rd = Verse.DefDatabase<Verse.RecipeDef>.GetNamed(sp.recipeDef.defName);
+                rd.products[0].count = (int)SettingsIndividual.CalculateValues(sp, this, false);
+                //Don't ask me where the 60 comes from, but it's needed for the calculation.
+                rd.workAmount = SettingsIndividual.CalculateValues(sp, this, true) * 60f;
             }
         }
         public Settings() {
             if (disableLogging)
                 Verse.Log.Message("Mines 2.0: Logging has been disabled.");
+
             //The two global settings.
             globalSettings.Add(new SettingGlobalProperties("globalWorkamount", "Global workamount modifier"));
             globalSettings.Add(new SettingGlobalProperties("globalYield", "Global yield modifier"));
-
-            foreach (Verse.ThingDef resourceBlock in Verse.DefDatabase<Verse.ThingDef>.AllDefs.Where(td => td.mineable && td.building?.mineableThing != null &&
-            (td.building.isResourceRock || td.building.isNaturalRock))) {
-                individualSettings.Add(new SettingindividualProperties(null, resourceBlock));
-            }
         }
     }
     public class MinesAutomatedSettings : Verse.Mod {
