@@ -27,13 +27,15 @@ namespace MinesAutomated {
         }
         public void LoadSettings() {
             try {
-                Verse.Scribe.mode = Verse.LoadSaveMode.LoadingVars;
-                Verse.Scribe.loader.curXmlParent = locationOfSavefile;
-                foreach (SettingindividualProperties sp in individualSettings) {
-                    Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
-                    Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
+                if (locationOfSavefile != null) {
+                    Verse.Scribe.mode = Verse.LoadSaveMode.LoadingVars;
+                    Verse.Scribe.loader.curXmlParent = locationOfSavefile;
+                    foreach (SettingindividualProperties sp in individualSettings) {
+                        Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
+                        Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
+                    }
+                    Verse.Scribe.mode = Verse.LoadSaveMode.Inactive;
                 }
-                Verse.Scribe.mode = Verse.LoadSaveMode.Inactive;
             } catch {
                 Verse.Log.Error("MinesAutomated error -> LoadSettings: " + locationOfSavefile);
             }
