@@ -10,7 +10,7 @@ namespace MinesAutomated {
         public int maxValue = 200;
         public System.Collections.Generic.List<SettingGlobalProperties> globalSettings = new System.Collections.Generic.List<SettingGlobalProperties>();
         public System.Collections.Generic.List<SettingindividualProperties> individualSettings = new System.Collections.Generic.List<SettingindividualProperties>();
-        System.Xml.XmlNode test = null;
+        System.Xml.XmlNode locationOfSavefile = null;
         public override void ExposeData() {
             base.ExposeData();
             Verse.Scribe_Values.Look(ref disableLogging, "disableLogging", defaultValue: false);
@@ -18,21 +18,25 @@ namespace MinesAutomated {
             foreach (SettingGlobalProperties sp in globalSettings)
                 Verse.Scribe_Values.Look(ref sp.value, sp.Scribe_Values_String);
             //Save the individual settings
-            if (test == null)
-                test = Verse.Scribe.loader.curXmlParent;
+            if (locationOfSavefile == null)
+                locationOfSavefile = Verse.Scribe.loader.curXmlParent;
             foreach (SettingindividualProperties sp in individualSettings) {
                 Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
                 Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
             }
         }
         public void LoadSettings() {
-            Verse.Scribe.mode = Verse.LoadSaveMode.LoadingVars;
-            Verse.Scribe.loader.curXmlParent = test;
-            foreach (SettingindividualProperties sp in individualSettings) {
-                Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
-                Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
+            try {
+                Verse.Scribe.mode = Verse.LoadSaveMode.LoadingVars;
+                Verse.Scribe.loader.curXmlParent = locationOfSavefile;
+                foreach (SettingindividualProperties sp in individualSettings) {
+                    Verse.Scribe_Values.Look(ref sp.valueWorkamount, sp.Scribe_Values_Workamount, defaultValue: 100);
+                    Verse.Scribe_Values.Look(ref sp.valueYield, sp.Scribe_Values_Yield, defaultValue: 100);
+                }
+                Verse.Scribe.mode = Verse.LoadSaveMode.Inactive;
+            } catch {
+                Verse.Log.Error("MinesAutomated error -> LoadSettings: " + locationOfSavefile);
             }
-            Verse.Scribe.mode = Verse.LoadSaveMode.Inactive;
         }
         //Gets called whenever the Recipes should be updated.
         public void UpdateRecipeDefs() {
