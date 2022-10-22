@@ -1,0 +1,9 @@
+F:\Program Files\Steam Library\steamapps\common\RimWorld\Mods\Mines 2.0 Extension\Assemblies\MinesAutomatedExtension.dll
+F:\Program Files\Steam Library\steamapps\common\RimWorld\Mods\Mines 2.0 Extension\Source\MinesAutomatedExtension\obj\Release\MinesAutomatedExtension.csprojAssemblyReference.cache
+F:\Program Files\Steam Library\steamapps\common\RimWorld\Mods\Mines 2.0 Extension\Source\MinesAutomatedExtension\obj\Release\MinesAutomatedExtension.csproj.CoreCompileInputs.cache
+F:\Program Files\Steam Library\steamapps\common\RimWorld\Mods\Mines 2.0 Extension\Source\MinesAutomatedExtension\obj\Release\MinesAutomatedExtension.dll
+D:\GithubProjects\Rimworld-Mods\Mines 2.0\1.3\Assemblies\MinesAutomatedExtension.dll
+D:\GithubProjects\Rimworld-Mods\Mines 2.0\1.3\Source\MinesAutomatedExtension\obj\Release\MinesAutomatedExtension.csproj.AssemblyReference.cache
+D:\GithubProjects\Rimworld-Mods\Mines 2.0\1.3\Source\MinesAutomatedExtension\obj\Release\MinesAutomatedExtension.csproj.CoreCompileInputs.cache
+D:\GithubProjects\Rimworld-Mods\Mines 2.0\1.3\Source\MinesAutomatedExtension\obj\Release\MinesAutomatedExtension.csproj.CopyComplete
+D:\GithubProjects\Rimworld-Mods\Mines 2.0\1.3\Source\MinesAutomatedExtension\obj\Release\MinesAutomatedExtension.dll

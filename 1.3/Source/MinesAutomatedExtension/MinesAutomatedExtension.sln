@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32407.343
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinesAutomated", "MinesAutomated\MinesAutomated.csproj", "{DD16F6CA-5332-4CFA-A220-E624588FC078}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinesAutomatedExtension", "MinesAutomatedExtension\MinesAutomatedExtension.csproj", "{D5A84EC4-74EA-4319-BA51-51936C054176}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinesAutomatedExtension", "MinesAutomatedExtension.csproj", "{D5A84EC4-74EA-4319-BA51-51936C054176}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DD16F6CA-5332-4CFA-A220-E624588FC078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD16F6CA-5332-4CFA-A220-E624588FC078}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD16F6CA-5332-4CFA-A220-E624588FC078}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD16F6CA-5332-4CFA-A220-E624588FC078}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5A84EC4-74EA-4319-BA51-51936C054176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5A84EC4-74EA-4319-BA51-51936C054176}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5A84EC4-74EA-4319-BA51-51936C054176}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -26,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F7B951BD-C065-4163-A4EF-8C34E1A75B9C}
+		SolutionGuid = {577C4149-B5B9-4B78-8102-83035BC47A93}
 	EndGlobalSection
 EndGlobal

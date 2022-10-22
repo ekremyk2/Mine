@@ -13,6 +13,7 @@
 		<passability>PassThroughOnly</passability>
 		<pathCost>70</pathCost>
     	<blockWind>true</blockWind>
+		<blockLight>true</blockLight>
 		<statBases>
 			<MaxHitPoints>200</MaxHitPoints>
 			<WorkToBuild>2400</WorkToBuild>
