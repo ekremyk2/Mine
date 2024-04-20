@@ -10,20 +10,6 @@
 		<li>1.4</li>
 		<li>1.5</li>
 	</supportedVersions>
-	<!--<modDependenciesByVersion>
-		Harmony is not needed anymore
-		<v1.3>
-			<li>
-				<packageId>brrainz.harmony</packageId>
-				<displayName>Harmony</displayName>
-				<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
-				<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
-			</li>
-		</v1.3>
-	</modDependenciesByVersion>
-	<loadAfter>
-		<li>brrainz.harmony</li>
-	</loadAfter>-->
     <description>This version of Mines mod makes it possible to mine modded resources from other mods.
 The Mines, a place for your pawns to excavate the treasures of the earth.
 This is a remake of the mod from AngleWyrm 1.3
