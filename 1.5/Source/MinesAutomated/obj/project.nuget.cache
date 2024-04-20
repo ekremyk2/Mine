@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9Ly6RglTJu0fWy/qeanTmt+j6+WkfhQPGKUXYKKisZeBZLQrnd/E9/Mip8Y6Yal9tSt2Nzg3TBAk2o+JodGW/w==",
+  "success": true,
+  "projectFilePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Mine\\1.5\\Source\\MinesAutomated\\MinesAutomated.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vova\\.nuget\\packages\\krafs.rimworld.ref\\1.4.3537\\krafs.rimworld.ref.1.4.3537.nupkg.sha512"
+  ],
+  "logs": []
+}
