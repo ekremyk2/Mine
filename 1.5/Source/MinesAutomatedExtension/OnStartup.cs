@@ -35,9 +35,9 @@ namespace MinesAutomatedExtension
                         RecipeDef newRecipe = DefineRecipeDef.CopyBaseRecipeDef();
 
                         newRecipe.defName = "MinesAutomatedExtension_RecipeDef_" + mineable.defName;
-                        newRecipe.label = "Mine for " + mineable.label;
-                        newRecipe.jobString = "Mining for " + mineable.label;
-                        newRecipe.description = "Mine for " + mineable.label;
+                        newRecipe.label = "ms.recipeLabel".Translate(mineable.label);
+                        newRecipe.jobString = "ms.recipejobString".Translate(mineable.label);
+                        newRecipe.description = "ms.recipedescription".Translate(mineable.label);
                         newRecipe.descriptionHyperlinks = new List<DefHyperlink>()
                         {
                             new DefHyperlink() { def = mineable }
