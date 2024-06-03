@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Verse;
 namespace MinesAutomated
 {
     [RimWorld.DefOf]
@@ -108,9 +109,9 @@ namespace MinesAutomated
         public static Verse.RecipeDef FinishRecipeDef(Verse.RecipeDef recipeDef, Verse.ThingDef resourceBlock)
         {
             recipeDef.defName = "MinesAutomated_RecipeDef_" + resourceBlock.defName;
-            recipeDef.label = "Mine for " + resourceBlock.building.mineableThing.label;
-            recipeDef.jobString = "Mining for " + resourceBlock.building.mineableThing.label;
-            recipeDef.description = "Mine for " + resourceBlock.building.mineableThing.label;
+            recipeDef.label = "ms.recipeLabel".Translate(resourceBlock.building.mineableThing.label);
+            recipeDef.jobString = "ms.recipejobString".Translate(resourceBlock.building.mineableThing.label);
+            recipeDef.description = "ms.recipedescription".Translate(resourceBlock.building.mineableThing.label);
             recipeDef.descriptionHyperlinks = new System.Collections.Generic.List<Verse.DefHyperlink>() {
                 new Verse.DefHyperlink() {def = resourceBlock.building.mineableThing}
             };

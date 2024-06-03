@@ -41,4 +41,9 @@ NOTE: Yields are capped to produce at least <i>one</i> unit of a material. If th
  <ms.reload>You need to save and load for changes to take effect</ms.reload>
  
 <ms.unfinished>Unfinished {0} mining work</ms.unfinished>
+
+
+<ms.recipeLabel>Mine for {0}</ms.recipeLabel>
+<ms.recipejobString>Mining for {0}</ms.recipejobString>
+<ms.recipedescription>Mine for {0}</ms.recipedescription>
 </LanguageData>
